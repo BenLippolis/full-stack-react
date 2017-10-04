@@ -1,8 +1,8 @@
 // Production environment keys
-// Set env variables for Heroku deploy
+// Set env variables for Heroku 
 module.exports = {
     googleClientID: 'process.env.GOOGLE_CLIENT_ID',
     googleClientSecret: 'process.env.GOOGLE_CLIENT_SECRET',
-    mongoURI: 'process.env.MONGODB_URI',
+    mongoURI: 'process.env.MONGO_URI',
     cookieKey: 'process.env.COOKIE_KEY'
 };
