@@ -23,12 +23,14 @@ passport.deserializeUser((id, done ) => {
 
 // Creates a new instance of passport google strategy
 // Need to pass keys & specify redirect route 
+// Tell google strategy to trust Heroku proxy server 
 passport.use(
     new GoogleStrategy(
       {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback'
+      callbackURL: '/auth/google/callback',
+      proxy: true
       }, 
       // Passport callback function 
       // Save user model instance to DB 
