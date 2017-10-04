@@ -21,7 +21,7 @@ module.exports = app => {
         res.send(req.user);
     });
 
-    // Route for returning the authenticated user
+    // Route for returning authenticated user
     app.get('/api/current_user', (req, res) => {
         res.send(req.user);
     });
