@@ -42,7 +42,7 @@ passport.use(
               // done takes an error argument, and user argument 
               done(null, existingUser);
             } else {
-              // user does not exist yet, make a new recors 
+              // user does not exist yet, make a new records 
               new User({ googleId: profile.id })
                 .save()
                 .then(user => done(null, user));
