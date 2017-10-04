@@ -10,7 +10,7 @@ require('./models/User');
 require('./services/passport');
 
 
-mongoose.connect(keys.mongoURI, {
+mongoose.connect(process.env.MONGO_URI, {
     useMongoClient: true
     /* other options */
   });
