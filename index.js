@@ -10,7 +10,7 @@ require('./models/User');
 require('./services/passport');
 
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(keys.mongoURI, {
     useMongoClient: true
     /* other options */
   });
@@ -26,7 +26,7 @@ app.use(
         // maxAge: how long cookie can exist inside the browser (as miliseconds)
         // keys: key to encrypt cookie 
         maxAge: 30 * 24 * 60 * 1000,
-        keys: [keys.cookieKey]
+        keys: [process.env.COOKIE_KEY]
     })
 );
 
