@@ -27,28 +27,27 @@ passport.deserializeUser((id, done ) => {
 passport.use(
     new GoogleStrategy(
       {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      //clientID: process.env.GOOGLE_CLIENT_ID,
+      //clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
       proxy: true
       }, 
       // Passport callback function 
       // Save user model instance to DB 
-      // .then is a promise callback to help handle asynchronous call 
-      (accessToken, refreshToken, profile, done) => {
-        User.findOne({ googleId: profile.id }).then((existingUser) => {
-            if (existingUser) {
-              // we already have a record with the given ID 
-              // done takes an error argument, and user argument 
-              done(null, existingUser);
-            } else {
-              // user does not exist yet, make a new records 
-              new User({ googleId: profile.id })
-                .save()
-                .then(user => done(null, user));
-            }
-          });         
-      }
+      // Example of async await syntax 
+      async (accessToken, refreshToken, profile, done) => {
+        const existingUser = await User.findOne({ googleId: profile.id })
+        if (existingUser) {
+          // we already have a record with the given ID 
+          // done takes an error argument, and user argument 
+          return done(null, existingUser);
+        } 
+        // user does not exist yet, make a new records 
+        const user = await new User({ googleId: profile.id }).save();
+        done(null, user);
+        }      
     )
   );
 
