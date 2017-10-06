@@ -12,13 +12,19 @@ module.exports = app => {
 
     // Route to handle google redirect + code
     // Passport will detect the code inside the URL 
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get(
+        '/auth/google/callback', 
+        passport.authenticate('google'),
+        (req, res) => {
+            res.redirect('/surveys');
+        }
+    );
 
     // Logout user 
     // .logout function is automatically attached to request object by passport 
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
     });
 
     // Route for returning authenticated user
