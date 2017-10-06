@@ -13,9 +13,12 @@ import * as actions from '../actions';
 // Import header component 
 import Header from './Header';
 
+// Import landing component 
+import Landing from './Landing'
+
 const Dashboard = () => <h2>Dashboard</h2>
 const SurveyNew = () => <h2>Survey New</h2>
-const Landing = () => <h2>Landing</h2>
+
 
 // Functional component (App)
 // Returns some JSX
