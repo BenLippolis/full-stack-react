@@ -14,3 +14,10 @@ export const fetchUser = () => async dispatch => {
     // This action gets picked up by our authReducer
     dispatch({ type: FETCH_USER, payload: res.data});
 };
+
+export const handleToken = (token) => async dispatch => {
+    const res = await axios.post('/api/stripe', token);
+    // This will update the user model inside the auth reducer 
+    // Backend code will update the users credits count 
+    dispatch({ type: FETCH_USER, payload: res.data });
+};

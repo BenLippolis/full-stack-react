@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 // Gives us access to cookies 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
@@ -19,6 +20,9 @@ require('./services/passport');
 
 // Configure app with port & routing 
 const app = express();
+
+// Body parser middleware
+app.use(bodyParser.json());
 
 // Tell app to use cookies 
 app.use(
@@ -38,6 +42,7 @@ app.use(passport.session());
 
 // Require returns a function and app is immediatley passed in 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 // Dynamic Port Binding 
 const PORT = process.env.PORT || 5000
