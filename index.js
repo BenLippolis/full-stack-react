@@ -12,7 +12,6 @@ require('./models/Survey');
 require('./services/passport');
 
 
-// mongoose.connect(process.env.MONGO_URI, {
     mongoose.connect(keys.mongoURI, {
     useMongoClient: true
     /* other options */

@@ -15,6 +15,10 @@ import App from './components/App';
 // Import reducers
 import reducers from './reducers';
 
+// Dev only axios helpers
+import axios from 'axios';
+window.axios = axios;
+
 // Create new instance of Redux store 
 // createStore takes application reducers as first argument
 // initial state of application is second argument 
