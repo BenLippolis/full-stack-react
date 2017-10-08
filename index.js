@@ -44,6 +44,7 @@ app.use(passport.session());
 // Require returns a function and app is immediatley passed in 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 
 // Config for deploying React + Express/ Node app
