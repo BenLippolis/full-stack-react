@@ -44,6 +44,22 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+
+// Config for deploying React + Express/ Node app
+if (process.env.NODE_ENV === 'production') {
+    // Express will serve up production assets 
+    // like our main.js file or main.css file
+    // Check to see if theres a specific file for what the request is looking for 
+    app.use(express.static('client/build'));
+
+    // Express will serve up the index.html file 
+    // if it does not recognize the route 
+    const path = require('path');
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 // Dynamic Port Binding 
 const PORT = process.env.PORT || 5000
 app.listen(PORT);
