@@ -14,10 +14,9 @@ import * as actions from '../actions';
 import Header from './Header';
 
 // Import landing component 
-import Landing from './Landing'
-
-const Dashboard = () => <h2>Dashboard</h2>
-const SurveyNew = () => <h2>Survey New</h2>
+import Landing from './Landing';
+import Dashboard from './Dashboard';
+import SurveyNew from './surveys/SurveyNew';
 
 
 // Functional component (App)
