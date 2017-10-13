@@ -34,6 +34,7 @@ module.exports = app => {
             req.user.credits -= 1;
             const user = await req.user.save();
 
+            // Send back new user model so header will auto update credits 
             res.send(user);
         } catch (err) {
             res.status(422).send(err);

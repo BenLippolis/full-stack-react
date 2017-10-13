@@ -21,3 +21,12 @@ export const handleToken = (token) => async dispatch => {
     // Backend code will update the users credits count 
     dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+// Pass in history object 
+export const submitSurvey = (values, history) => async dispatch => {
+    const res = await axios.post('/api/surveys', values);
+
+    // This is the redirect 
+    history.push('/surveys');
+    dispatch({ type: FETCH_USER, payload: res.data });
+};
