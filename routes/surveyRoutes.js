@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Path = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -7,8 +10,42 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for your feedback!');
+    });
+
+    app.post('/api/surveys/webhooks', (req, res) => {
+        // Extract path name from request body 
+        const p = new Path('/api/surveys/:surveyId/:choice');
+
+        // Use chain method 
+        _.chain(req.body)
+            .map(({ email, url }) => {            
+                const match = p.test(new URL(url).pathname);
+                if (match) {
+                    return { email, surveyId: match.surveyId, choice: match.choice };
+                }
+            })
+            // Compact function from lodash library 
+            // Use compact to remove undefined elements 
+            .compact()
+            // Ensure we have no duplicate records 
+            .uniqBy('email', 'surveyId')
+            .each(({ surveyId, email, choice }) => {
+                Survey.updateOne({
+                    _id: surveyId,
+                    recipients: {
+                        $elemMatch: { email: email, responded: false }
+                    }
+                }, {
+                    $inc: { [choice]: 1 },
+                    $set: { 'recipients.$.responded': true },
+                    lastResponded: new Date()
+                }).exec();
+            })
+            .value();
+
+        res.send({});
     });
 
     app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
@@ -39,11 +76,5 @@ module.exports = app => {
         } catch (err) {
             res.status(422).send(err);
         }
-    });
-
-    app.post('/api/surveys/webhooks', (req, res) => {
-        console.log(req.body);
-        res.send({});
-
     });
 };
